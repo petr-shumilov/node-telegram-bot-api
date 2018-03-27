@@ -214,10 +214,14 @@ class TelegramBot extends EventEmitter {
         }
       };
     } else if (Buffer.isBuffer(data)) {
-      const filetype = fileType(data);
+      let filetype = fileType(data);
+      // HOTFIX
       if (!filetype) {
-        throw new errors.FatalError('Unsupported Buffer file type');
+        //throw new errors.FatalError('Unsupported Buffer file type');
+        filetype = {};
+        filetype.mime = 'application/octet-stream';
       }
+      // HOTFIX
       formData = {};
       formData[type] = {
         value: data,
